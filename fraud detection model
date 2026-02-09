@@ -1,0 +1,93 @@
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import OneHotEncoder, LabelEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
+import joblib
+
+# Load dataset
+data = pd.read_csv('fraud_data.csv')
+
+# Exploratory Data Analysis (EDA)
+print(data.head())
+print(data.info())
+print(data.describe())
+
+# Handle missing values, if any
+data = data.fillna(method='ffill')
+
+# Preprocess the 'Timestamp' column
+data['Timestamp'] = pd.to_datetime(data['Timestamp'])  # Convert to datetime
+data['Hour'] = data['Timestamp'].dt.hour
+data['Day'] = data['Timestamp'].dt.day
+data['Month'] = data['Timestamp'].dt.month
+data['DayOfWeek'] = data['Timestamp'].dt.dayofweek
+data = data.drop(columns=['Timestamp'])  # Drop original timestamp
+
+# Encode categorical columns
+categorical_columns = ['TransactionType', 'Location', 'UserID']
+column_transformer = ColumnTransformer(
+    transformers=[
+        ('cat', OneHotEncoder(), categorical_columns)
+    ],
+    remainder='passthrough'
+)
+
+# Define features and target
+X = data.drop(['is_fraud', 'TransactionID'], axis=1)  # Drop target and irrelevant columns
+X = column_transformer.fit_transform(X)  # Encode categorical data
+y = data['is_fraud']
+
+# Encode target variable if it's categorical
+if y.dtype == 'object' or y.dtype.name == 'category':
+    y = LabelEncoder().fit_transform(y)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize and train the logistic regression model
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train, y_train)
+
+# Make predictions
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+print("Classification Report:\n", classification_report(y_test, y_pred))
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+
+# Plot 1: Distribution of Fraud vs Non-Fraud Transactions
+plt.figure(figsize=(8, 6))
+sns.countplot(x='is_fraud', data=data, palette='viridis')
+plt.title('Distribution of Fraud vs Non-Fraud Transactions')
+plt.xlabel('Fraud Indicator (0 = Non-Fraud, 1 = Fraud)')
+plt.ylabel('Count')
+plt.show()
+
+# Plot 2: Transaction Amount Distribution
+plt.figure(figsize=(8, 6))
+sns.boxplot(x='is_fraud', y='TransactionAmount', data=data, palette='viridis')
+plt.title('Transaction Amount Distribution by Fraud Indicator')
+plt.xlabel('Fraud Indicator (0 = Non-Fraud, 1 = Fraud)')
+plt.ylabel('Transaction Amount')
+plt.show()
+
+# Plot 3: Confusion Matrix
+ConfusionMatrixDisplay.from_estimator(model, X_test, y_test, cmap='viridis')
+plt.title('Confusion Matrix')
+plt.show()
+
+# Save the trained model
+joblib.dump(model, 'fraud_detection_model.pkl')
+
+# Example: Load and use the saved model
+# loaded_model = joblib.load('fraud_detection_model.pkl')
+# predictions = loaded_model.predict(X_test)

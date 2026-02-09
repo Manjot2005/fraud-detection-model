@@ -1,0 +1,27 @@
+TransactionID,TransactionType,Location,UserID,Timestamp,TransactionAmount,Fraudindicator,is_fraud
+10001,OnlinePurchase,New York,U123,01-04-2025 10:15,120.5,0,No
+10002,CardSwipe,Los Angeles,U234,01-04-2025 11:30,450,1,Yes
+10003,OnlinePurchase,Chicago,U345,02-04-2025 09:45,89.99,0,No
+10004,BankTransfer,Houston,U456,02-04-2025 14:00,3000,1,Yes
+10005,CardSwipe,Phoenix,U567,02-04-2025 16:25,200,0,No
+10006,OnlinePurchase,Seattle,U678,03-04-2025 08:40,99,0,No
+10007,BankTransfer,Denver,U789,03-04-2025 10:20,1500,0,No
+10008,CardSwipe,Boston,U890,03-04-2025 18:30,270,1,Yes
+10009,OnlinePurchase,San Diego,U901,04-04-2025 13:10,75.49,0,No
+10010,CardSwipe,Dallas,U012,04-04-2025 17:45,550,1,Yes
+10011,BankTransfer,Atlanta,U123,05-04-2025 09:30,3200,0,No
+10012,OnlinePurchase,Miami,U234,05-04-2025 11:00,110.75,0,No
+10013,CardSwipe,Orlando,U345,05-04-2025 15:30,475,1,Yes
+10014,OnlinePurchase,San Jose,U456,06-04-2025 08:10,60,0,No
+10015,BankTransfer,Charlotte,U567,06-04-2025 10:45,2250,1,Yes
+10016,CardSwipe,Detroit,U678,06-04-2025 16:00,310,0,No
+10017,OnlinePurchase,Salt Lake,U789,07-04-2025 09:25,70.99,0,No
+10018,BankTransfer,Las Vegas,U890,07-04-2025 12:15,1850,1,Yes
+10019,CardSwipe,Portland,U901,08-04-2025 14:50,400,0,No
+10020,OnlinePurchase,Tampa,U012,08-04-2025 17:20,95.49,0,No
+10021,BankTransfer,Sacramento,U123,09-04-2025 10:10,2550,1,Yes
+10022,CardSwipe,Oklahoma,U234,09-04-2025 12:45,620,1,Yes
+10023,OnlinePurchase,Nashville,U345,10-04-2025 08:05,50.75,0,No
+10024,BankTransfer,Austin,U456,10-04-2025 14:00,3100,0,No
+10025,OnlinePurchase,Baltimore,U567,10-04-2025 16:30,125.99,0,No
+10026,CardSwipe,Indianapolis,U678,11-04-2025 09:15,360,1,Yes
